@@ -51,6 +51,20 @@ model_org_name=(${model//// })
 model_name=${model_org_name[1]}
 tp=$numgpu
 
+# perf env setting
+export HIP_FORCE_DEV_KERNARG=1
+export VLLM_USE_ROCM_CUSTOM_PAGED_ATTN=1
+export VLLM_USE_TRITON_FLASH_ATTN=0
+export VLLM_INSTALL_PUNICA_KERNELS=1
+export TOKENIZERS_PARALLELISM=false
+export RAY_EXPERIMENTAL_NOSET_ROCR_VISIBLE_DEVICES=1
+export NCCL_MIN_NCHANNELS=112
+export VLLM_FP8_PADDING=1
+export VLLM_FP8_ACT_PADDING=1
+export VLLM_FP8_WEIGHT_PADDING=1
+export VLLM_FP8_REDUCE_CONV=1
+export VLLM_SCHED_PREFILL_KVC_FREEPCT=31.0
+
 if [ $tp -eq 1 ]; then
     DIST_BE=" --enforce-eager "
 else
